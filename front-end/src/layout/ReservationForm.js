@@ -70,9 +70,10 @@ function ReservationForm({initialFormState, deckFunction}) {
                 <input
                     className="form-control"
                     id="reservation_date"
-                    type="text"
+                    type="date"
                     name="reservation_date"
-                    placeholder = "Reservation Date"
+                    placeholder="YYYY-MM-DD" 
+                    pattern="\d{4}-\d{2}-\d{2}"
                     onChange={handleChange}
                     value={formData.reservation_date}
                     />
@@ -82,9 +83,10 @@ function ReservationForm({initialFormState, deckFunction}) {
                 <input
                     className="form-control"
                     id="reservation_time"
-                    type="text"
+                    type="time"
                     name="reservation_time"
-                    placeholder = "Reservation Time"
+                    placeholder="HH:MM" 
+                    pattern="[0-9]{2}:[0-9]{2}"
                     onChange={handleChange}
                     value={formData.reservation_time}
                     />

@@ -1,6 +1,7 @@
 import React from "react";
 import ReservationForm from "./ReservationForm";
 import { createReservations } from "../utils/api";
+// import ErrorAlert from "../layout/ErrorAlert";
 
 function CreateNewReservation({date}) {
 
