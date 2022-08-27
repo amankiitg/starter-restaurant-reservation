@@ -5,7 +5,7 @@ function list() {
 }
 
 function listForDate(date) {
-  return knex("reservations").select("*").where({ reservation_date: date });
+    return knex("reservations").select("*").where({ reservation_date: date });
 }
 
 function read(reviewId) {
@@ -14,21 +14,21 @@ function read(reviewId) {
   
 
 function create(reservation) {
-return knex("reservations")
-    .insert(reservation)
-    .returning("*")
-    .then((createdRecords) => createdRecords[0]);
+    return knex("reservations")
+        .insert(reservation)
+        .returning("*")
+        .then((createdRecords) => createdRecords[0]);
 }
 
 function update(updatedReview) {
-return knex("reservations")
-    .select("*")
-    .where({ review_id: updatedReview.review_id })
-    .update(updatedReview, "*");
+    return knex("reservations")
+        .select("*")
+        .where({ review_id: updatedReview.review_id })
+        .update(updatedReview, "*");
 }
 
 function destroy(review_id) {
-return knex("reservations").where({ review_id }).del();
+    return knex("reservations").where({ review_id }).del();
 }
 
   

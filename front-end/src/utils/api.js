@@ -73,7 +73,13 @@ export async function createReservations(params, signal) {
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
-  return await fetchJson(url, { headers, signal }, [])
+  const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ data: params }),
+      signal,
+  };
+  return await fetchJson(url, options, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
 }

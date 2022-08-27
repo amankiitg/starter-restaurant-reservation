@@ -19,6 +19,7 @@ const VALID_PROPERTIES = [
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
 
+  console.log("hasOnlyValidProperties");
   const invalidFields = Object.keys(data).filter(
     (field) => !VALID_PROPERTIES.includes(field)
   );
@@ -63,6 +64,7 @@ function hasOnlyValidProperties(req, res, next) {
  }
 
  function create(req, res, next) {
+  console.log('Starting insertion',req.body.data);
   reservationsService
     .create(req.body.data)
     .then((data) => {

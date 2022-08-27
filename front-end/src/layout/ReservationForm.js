@@ -60,7 +60,8 @@ function ReservationForm({initialFormState, deckFunction}) {
                     id="mobile_number"
                     type="text"
                     name="mobile_number"
-                    placeholder = "Mobile Number"
+                    placeholder = "(___)-___-_____"
+                    pattern="\d{3}-\d{3}-\d{4}"
                     onChange={handleChange}
                     value={formData.mobile_number}
                     />
