@@ -2,7 +2,7 @@ import React, { useState  }  from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-function ReservationForm({initialFormState, deckFunction}) {
+function ReservationForm({initialFormState, deckFunction, setDate}) {
 
     const [formData, setFormData] = useState({ ...initialFormState });
 
@@ -24,6 +24,7 @@ function ReservationForm({initialFormState, deckFunction}) {
         const response = deckFunction(formData);
         const savedData = await response;
         console.log("Saved user!", savedData);
+        setDate(formData.reservation_date);
         history.push("/");
       };
 

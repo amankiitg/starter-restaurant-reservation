@@ -3,7 +3,7 @@ import ReservationForm from "./ReservationForm";
 import { createReservations } from "../utils/api";
 // import ErrorAlert from "../layout/ErrorAlert";
 
-function CreateNewReservation({date}) {
+function CreateNewReservation({date, setDate}) {
 
     const initialFormState = {
         first_name: "",
@@ -17,7 +17,7 @@ function CreateNewReservation({date}) {
     return (
         <section>
         <h2>New Reservation</h2>
-        <ReservationForm initialFormState={initialFormState} deckFunction={createReservations}/>
+        <ReservationForm initialFormState={initialFormState} deckFunction={createReservations} setDate={setDate}/>
         </section>
     )
   }
