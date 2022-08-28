@@ -34,7 +34,7 @@ function validateTime(req, res, next) {
 }
 
 function validatePeople(req, res, next) {
-  const people = req.body.data.people
+  const people = req.body.data.people;
   if (typeof people =='number') {
     return next()
   }
@@ -86,10 +86,11 @@ function hasOnlyValidProperties(req, res, next) {
  }
 
  function create(req, res, next) {
+  // console.log('Inserting.. ',req.body.data)
   reservationsService
     .create(req.body.data)
     .then((data) => {
-      console.log('Sucessfully inserted');
+      // console.log('Sucessfully inserted');
       res.status(201).json({ data })
     })
     .catch(next);

@@ -24,7 +24,7 @@ function ReservationForm({initialFormState, deckFunction, setDate}) {
         const response = deckFunction(formData);
         const savedData = await response;
         console.log("Saved user!", savedData);
-        // setDate(formData.reservation_date);
+        //setDate(formData.reservation_date);
         const newPath = `/dashboard/?date=${formData.reservation_date}`
         console.log('Taking to path',newPath);
         history.push(newPath);
@@ -102,6 +102,7 @@ function ReservationForm({initialFormState, deckFunction, setDate}) {
                     id="people"
                     type="number"
                     name="people"
+                    min="1"
                     placeholder = "People"
                     onChange={handleChange}
                     value={formData.people}

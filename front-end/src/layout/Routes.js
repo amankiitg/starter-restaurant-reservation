@@ -1,6 +1,6 @@
 // import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+// import { useLocation, useHistory } from "react-router-dom";
 import React, {useEffect, useState } from "react";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
@@ -19,14 +19,18 @@ function Routes() {
   const [date, setDate] = useState(today());
 
   const url = useLocation();
+  //const history = useHistory();
+  //console.log('URL',url,'History',history);
 
   useEffect(() => {
+       
         const queryParams = new URLSearchParams(url.search);
         console.log('Url in Routes', url, queryParams.get("date"));
         if(queryParams.get("date")){
           setDate(queryParams.get("date"));
         } else{
           setDate(today());
+          // history.push("/");
         }
   }, [url]);
 
