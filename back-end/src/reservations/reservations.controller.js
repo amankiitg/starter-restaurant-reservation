@@ -42,11 +42,12 @@ function validatePeople(req, res, next) {
 }
 
 function validateNotTuesday(req, res, next) {
-  const date = new Date(req.body.data.reservation_date)
+  const stringDate = req.body.data.reservation_date
+  const date = new Date(stringDate)
   if (date.getUTCDay()!=2) {
     return next()
   }
-  next({status: 400, message: `Restaurant is closed on Tuesday, ${date}`})
+  next({status: 400, message: `Restaurant is closed on Tuesday, ${stringDate}`})
 }
 
 function validateFuture(req, res, next) {

@@ -2,7 +2,7 @@ import React, { useState  }  from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-function ReservationForm({initialFormState, deckFunction, setDate}) {
+function ReservationForm({initialFormState, deckFunction, setReservationsError}) {
 
     const [formData, setFormData] = useState({ ...initialFormState });
 
@@ -20,14 +20,32 @@ function ReservationForm({initialFormState, deckFunction, setDate}) {
         console.log("Submitting..", formData);
 
         // const abortController = new AbortController();
+        deckFunction(formData)
+        .then((response) => {
+            console.log("Saved user!", response);
+            const newPath = `/dashboard/?date=${formData.reservation_date}`
+            console.log('Taking to path',newPath);
+            history.push(newPath);
+        })
+        .catch((error) => {
+            setReservationsError(error);
+            setFormData(formData)
+        });
+        
 
-        const response = deckFunction(formData);
-        const savedData = await response;
-        console.log("Saved user!", savedData);
-        //setDate(formData.reservation_date);
-        const newPath = `/dashboard/?date=${formData.reservation_date}`
-        console.log('Taking to path',newPath);
-        history.push(newPath);
+        // try {
+        //     const response = deckFunction(formData);
+        //     const savedData = await response;
+        //     console.log("Saved user!", savedData);
+        //     const newPath = `/dashboard/?date=${formData.reservation_date}`
+        //     console.log('Taking to path',newPath);
+        //     history.push(newPath);
+        // } catch (error) {
+        //     setReservationsError(error)
+        //     console.log(`We handled the error: ${error}`);
+        // }
+
+        
       };
 
     return (
@@ -64,7 +82,7 @@ function ReservationForm({initialFormState, deckFunction, setDate}) {
                     type="text"
                     name="mobile_number"
                     placeholder = "(___)-___-_____"
-                    pattern="\d{3}-\d{3}-\d{4}"
+                    // pattern="\d{3}-\d{3}-\d{4}"
                     onChange={handleChange}
                     value={formData.mobile_number}
                     />
