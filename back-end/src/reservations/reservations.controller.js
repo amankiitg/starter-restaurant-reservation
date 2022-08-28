@@ -16,10 +16,33 @@ const VALID_PROPERTIES = [
   "people",
 ];
 
+function validateDate(req, res, next) {
+    const date = Date.parse(req.body.data.reservation_date)
+    if (date) {
+      return next()
+    }
+    next({status: 400, message: "reservation_date should be Date object"})
+}
+
+function validateTime(req, res, next) {
+  const time = req.body.data.reservation_time
+  const timeFormat = /\d\d:\d\d/;
+  if (time.match(timeFormat)) {
+    return next()
+  }
+  next({status: 400, message: "reservation_time should be Time object"})
+}
+
+function validatePeople(req, res, next) {
+  const people = req.body.data.people
+  if (typeof people =='number') {
+    return next()
+  }
+  next({status: 400, message: "people should be Number"})
+}
+
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
-
-  console.log("hasOnlyValidProperties");
   const invalidFields = Object.keys(data).filter(
     (field) => !VALID_PROPERTIES.includes(field)
   );
@@ -63,7 +86,6 @@ function hasOnlyValidProperties(req, res, next) {
  }
 
  function create(req, res, next) {
-  console.log('Starting insertion',req.body.data);
   reservationsService
     .create(req.body.data)
     .then((data) => {
@@ -94,7 +116,7 @@ function destroy(req, res, next) {
    list: asyncErrorBoundary(list),
    read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
    movieExists : asyncErrorBoundary(movieExists),
-  create: [hasOnlyValidProperties, hasRequiredProperties, asyncErrorBoundary(create)],
+  create: [hasOnlyValidProperties, hasRequiredProperties, validatePeople, validateDate, validateTime, asyncErrorBoundary(create)],
   update: [asyncErrorBoundary(movieExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(movieExists), asyncErrorBoundary(destroy)],
  };

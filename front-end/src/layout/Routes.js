@@ -22,7 +22,7 @@ function Routes() {
 
   useEffect(() => {
         const queryParams = new URLSearchParams(url.search);
-        console.log('Url in Routes', url.search, queryParams.get("date"));
+        console.log('Url in Routes', url, queryParams.get("date"));
         if(queryParams.get("date")){
           setDate(queryParams.get("date"));
         } else{
