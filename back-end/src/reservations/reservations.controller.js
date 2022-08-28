@@ -59,6 +59,17 @@ function validateFuture(req, res, next) {
   next({status: 400, message: `Reservation can only be made for future dates`})
 }
 
+function validateTiming(req, res, next) {
+  const timeString = req.body.data.reservation_time;
+  const datetime = new Date('1970-01-01T' + timeString + ':00Z');
+  const starttime = new Date('1970-01-01T10:30:00Z');
+  const endtime = new Date('1970-01-01T21:30:00Z');
+  if ((datetime>starttime)&&(datetime<endtime)) {
+    return next()
+  }
+  next({status: 400, message: `Reservation can only be made between 10:30AM - 09:30PM`})
+}
+
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
   const invalidFields = Object.keys(data).filter(
@@ -137,7 +148,7 @@ function destroy(req, res, next) {
    movieExists : asyncErrorBoundary(movieExists),
   create: [hasOnlyValidProperties, hasRequiredProperties, 
     validatePeople, validateDate, validateTime, 
-    validateFuture, validateNotTuesday, 
+    validateFuture, validateNotTuesday, validateTiming,
     asyncErrorBoundary(create)],
   update: [asyncErrorBoundary(movieExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(movieExists), asyncErrorBoundary(destroy)],
