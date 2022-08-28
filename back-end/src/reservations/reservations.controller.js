@@ -41,6 +41,23 @@ function validatePeople(req, res, next) {
   next({status: 400, message: "people should be Number"})
 }
 
+function validateNotTuesday(req, res, next) {
+  const date = new Date(req.body.data.reservation_date)
+  if (date.getUTCDay()!=2) {
+    return next()
+  }
+  next({status: 400, message: `Restaurant is closed on Tuesday, ${date}`})
+}
+
+function validateFuture(req, res, next) {
+  const date = new Date(req.body.data.reservation_date)
+  const today = new Date();
+  if (date>today) {
+    return next()
+  }
+  next({status: 400, message: `Reservation can only be made for future dates`})
+}
+
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
   const invalidFields = Object.keys(data).filter(
@@ -117,7 +134,10 @@ function destroy(req, res, next) {
    list: asyncErrorBoundary(list),
    read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
    movieExists : asyncErrorBoundary(movieExists),
-  create: [hasOnlyValidProperties, hasRequiredProperties, validatePeople, validateDate, validateTime, asyncErrorBoundary(create)],
+  create: [hasOnlyValidProperties, hasRequiredProperties, 
+    validatePeople, validateDate, validateTime, 
+    validateFuture, validateNotTuesday, 
+    asyncErrorBoundary(create)],
   update: [asyncErrorBoundary(movieExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(movieExists), asyncErrorBoundary(destroy)],
  };
