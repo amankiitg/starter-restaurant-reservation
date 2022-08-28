@@ -35,7 +35,6 @@ function hasOnlyValidProperties(req, res, next) {
  
  async function list(req, res) {
      const date = req.query.date;
-     console.log('Date',date);
      if(date){
        const data = await reservationsService.listForDate(date);
        res.json({ data });
