@@ -63,7 +63,6 @@ export async function listReservations(params, signal) {
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
-  // console.log('listReservations URL',url);
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -71,7 +70,6 @@ export async function listReservations(params, signal) {
 
 export async function createReservations(reservation, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
-  // console.log('createReservations URL',url);
   reservation.people = parseInt(reservation.people)
   const options = {
       method: "POST",
@@ -82,4 +80,24 @@ export async function createReservations(reservation, signal) {
   return await fetchJson(url, options, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+export async function listTables(params, signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  Object.entries(params).forEach(([key, value]) =>
+    url.searchParams.append(key, value.toString())
+  );
+  return await fetchJson(url, { headers, signal }, []);
+}
+
+export async function createTables(table, signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  table.capacity = parseInt(table.capacity)
+  const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ data: table }),
+      signal,
+  };
+  return await fetchJson(url, options, []);
 }

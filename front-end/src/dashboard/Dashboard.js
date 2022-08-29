@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "./ReservationList";
+import TableList from "./TableList";
 import DateChange from "./DateChange";
 
 /**
@@ -16,6 +17,9 @@ function Dashboard({ date, setDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
+
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
@@ -23,7 +27,7 @@ function Dashboard({ date, setDate }) {
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setReservationsError);    
     return () => abortController.abort();
   }
 
@@ -45,6 +49,11 @@ function Dashboard({ date, setDate }) {
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationList recipes={reservations} deleteRecipe={deleteRecipe}/>
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">Tables</h4>
+      </div>
+      <ErrorAlert error={tablesError} />
+      <TableList recipes={tables} deleteRecipe={deleteRecipe}/>
     </main>
   );
 }

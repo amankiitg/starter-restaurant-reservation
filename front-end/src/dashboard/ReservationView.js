@@ -1,14 +1,14 @@
 import React from "react";
 
-function ReservationView({ recipe, deleteRecipe }) {
+function ReservationView({ reservation, deleteRecipe }) {
     return (
       <tr>
-        <td>          {recipe.first_name}         </td>
-        <td>          {recipe.last_name}        </td>
-        <td>          {recipe.mobile_number}        </td>
-        <td>          {recipe.reservation_date}        </td>
-        <td>          {recipe.reservation_time}        </td>
-        <td>          {recipe.people}        </td>
+        <td>          {reservation.first_name}         </td>
+        <td>          {reservation.last_name}        </td>
+        <td>          {reservation.mobile_number}        </td>
+        <td>          {reservation.reservation_date}        </td>
+        <td>          {reservation.reservation_time}        </td>
+        <td>          {reservation.people}        </td>
         <td>
           <button name="delete" onClick={deleteRecipe}>
             Delete

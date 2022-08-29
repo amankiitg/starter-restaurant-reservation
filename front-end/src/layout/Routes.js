@@ -5,6 +5,7 @@ import React, {useEffect, useState } from "react";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import CreateNewReservation from "./CreateNewReservation";
+import CreateNewTable from "./CreateNewTable";
 import { today } from "../utils/date-time";
 
 /**
@@ -47,6 +48,9 @@ function Routes() {
       </Route>
       <Route path="/reservations">
         <Dashboard date={date} />
+      </Route>
+      <Route exact={true} path="/tables/new">
+        <CreateNewTable />
       </Route>
       <Route>
         <NotFound />
