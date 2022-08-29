@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { useLocation, useHistory } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listTables, listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "./ReservationList";
 import TableList from "./TableList";
@@ -25,12 +25,19 @@ function Dashboard({ date, setDate }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
+    setTablesError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);    
+      .catch(setReservationsError);  
+
+      listTables({}, abortController.signal)
+      .then(setTables)
+      .catch(setTablesError);    
+
     return () => abortController.abort();
   }
 
+  
   function deleteRecipe() {
     const abortController = new AbortController();
     setReservationsError(null);

@@ -18,7 +18,7 @@ function ReservationList({ reservations, deleteRecipe }) {
             <th>Reservation Date</th>
             <th>Reservation Time</th>
             <th>People</th>
-            <th>Actions</th>
+            <th>Seat</th>
           </tr>
         </thead>
         <tbody>

@@ -32,20 +32,6 @@ function ReservationForm({initialFormState, deckFunction, setReservationsError})
             setFormData(formData)
         });
         
-
-        // try {
-        //     const response = deckFunction(formData);
-        //     const savedData = await response;
-        //     console.log("Saved user!", savedData);
-        //     const newPath = `/dashboard/?date=${formData.reservation_date}`
-        //     console.log('Taking to path',newPath);
-        //     history.push(newPath);
-        // } catch (error) {
-        //     setReservationsError(error)
-        //     console.log(`We handled the error: ${error}`);
-        // }
-
-        
       };
 
     return (

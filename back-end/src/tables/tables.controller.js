@@ -21,7 +21,8 @@
 
  function validateCapacityValue(req, res, next) {
     const capacity = req.body.data.capacity;
-    if (capacity>1) {
+    console.log('Table capacity is number',capacity,typeof capacity, capacity>0);
+    if (capacity>0) {
       return next()
     }
     next({status: 400, message: "capacity should be non zero"})

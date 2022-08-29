@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function ReservationView({ reservation, deleteRecipe }) {
     return (
@@ -10,9 +11,11 @@ function ReservationView({ reservation, deleteRecipe }) {
         <td>          {reservation.reservation_time}        </td>
         <td>          {reservation.people}        </td>
         <td>
-          <button name="delete" onClick={deleteRecipe}>
-            Delete
-          </button>
+          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+            <button className="btn btn-secondary">
+              Seat
+            </button>
+          </Link>
         </td>
       </tr>
     );

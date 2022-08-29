@@ -14,7 +14,8 @@ function TableList({ tables, deleteRecipe }) {
           <tr>
             <th>Table Name</th>
             <th>Capacity</th>
-            <th>Actions</th>
+            <th>Status</th>
+            <th>Finsh</th>
           </tr>
         </thead>
         <tbody>
