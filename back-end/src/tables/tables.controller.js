@@ -21,7 +21,7 @@
 
  function validateCapacityValue(req, res, next) {
     const capacity = req.body.data.capacity;
-    console.log('Table capacity is number',capacity,typeof capacity, capacity>0);
+    //console.log('Table capacity is number',capacity,typeof capacity, capacity>0);
     if (capacity>0) {
       return next()
     }
@@ -30,7 +30,7 @@
 
  function validateName(req, res, next) {
     const tableName = req.body.data.table_name;
-    console.log('Table name',tableName,tableName.length)
+    //console.log('Table name',tableName,tableName.length)
     if (tableName.length>1) {
       return next()
     }

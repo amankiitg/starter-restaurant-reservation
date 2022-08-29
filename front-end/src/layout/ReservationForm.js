@@ -15,12 +15,14 @@ function ReservationForm({initialFormState, deckFunction, setReservationsError})
     };
 
     const submitHandler = async (event) => {
+
+        let abortController = new AbortController();
+
         event.preventDefault();
         setFormData({ ...initialFormState });
         console.log("Submitting..", formData);
 
-        // const abortController = new AbortController();
-        deckFunction(formData)
+        deckFunction(formData, abortController.signal)
         .then((response) => {
             console.log("Saved user!", response);
             const newPath = `/dashboard/?date=${formData.reservation_date}`
@@ -32,6 +34,10 @@ function ReservationForm({initialFormState, deckFunction, setReservationsError})
             setFormData(formData)
         });
         
+        return () => {  
+            abortController.abort();  
+        }  
+
       };
 
     return (

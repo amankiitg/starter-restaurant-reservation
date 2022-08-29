@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-function BackButton() {
+function CancelButton() {
   const history = useHistory();
   return (
     <button className="btn btn-secondary" onClick={() => history.goBack()}>
@@ -10,4 +10,4 @@ function BackButton() {
   );
 }
 
-export default BackButton;
+export default CancelButton;

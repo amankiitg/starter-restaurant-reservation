@@ -20,17 +20,19 @@ function Routes() {
   const [date, setDate] = useState(today());
 
   const url = useLocation();
-  //const history = useHistory();
-  //console.log('URL',url,'History',history);
 
   useEffect(() => {
-        const queryParams = new URLSearchParams(url.search);
+        let queryParams = new URLSearchParams(url.search);
         console.log('Url in Routes', url, queryParams.get("date"));
         if(queryParams.get("date")){
           setDate(queryParams.get("date"));
         } else{
           setDate(today());
           // history.push("/");
+        }
+
+        return () => { 
+          queryParams = new URLSearchParams();
         }
   }, [url]);
 
@@ -49,7 +51,7 @@ function Routes() {
       <Dashboard date={date} setDate={setDate}/>
       </Route>
       <Route exact={true} path="/tables/new">
-        <CreateNewTable />
+        <CreateNewTable/>
       </Route>
       <Route>
         <NotFound />

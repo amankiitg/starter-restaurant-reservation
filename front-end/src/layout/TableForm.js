@@ -1,26 +1,33 @@
-import React, { useState  }  from "react";
+// import React, { useState  }  from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import CancelButton from "./CancelButton";
 
-function TableForm({initialFormState, deckFunction, setTablesError}) {
-
-    const [formData, setFormData] = useState({ ...initialFormState });
+function TableForm({formData, setFormData, deckFunction, setTablesError}) {
 
     const history = useHistory();
     const handleChange = ({ target }) => {
-        setFormData({
-            ...formData,
-            [target.name]: target.value,
-        });
+        let isMounted = true;
+        if(isMounted){
+            setFormData({
+                ...formData,
+                [target.name]: target.value,
+            });
+        }
+        return () => {  
+            isMounted = false;
+        }  
     };
 
     const submitHandler = async (event) => {
+        let abortController = new AbortController();
+        
         event.preventDefault();
-        setFormData({ ...initialFormState });
+        setFormData({ ...formData});
         console.log("Submitting..", formData);
 
-        // const abortController = new AbortController();
-        deckFunction(formData)
+        
+        deckFunction(formData, abortController.signal)
         .then((response) => {
             console.log("Saved table!", response);
             history.push("/");
@@ -29,6 +36,11 @@ function TableForm({initialFormState, deckFunction, setTablesError}) {
             setTablesError(error);
             setFormData(formData)
         });
+    
+
+        return () => {  
+            abortController.abort();  
+        }  
     };
 
     return (
@@ -59,7 +71,7 @@ function TableForm({initialFormState, deckFunction, setTablesError}) {
                     />
             </div>
             
-            <Link to={"/"}><button className="btn btn-secondary">Cancel</button></Link>
+            <CancelButton/>
             <button type="submit" className="btn btn-primary mx-3">Submit</button>
         </form>        
     );
