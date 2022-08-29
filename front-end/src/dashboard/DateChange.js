@@ -1,5 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useLocation, useHistory } from "react-router-dom";
 import { today, previous, next } from "../utils/date-time";
 
 /**

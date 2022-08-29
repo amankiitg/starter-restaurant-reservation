@@ -48,12 +48,12 @@ function Dashboard({ date, setDate }) {
         <h4 className="mb-0">Reservations for date {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationList recipes={reservations} deleteRecipe={deleteRecipe}/>
+      <ReservationList reservations={reservations} deleteRecipe={deleteRecipe}/>
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Tables</h4>
       </div>
       <ErrorAlert error={tablesError} />
-      <TableList recipes={tables} deleteRecipe={deleteRecipe}/>
+      <TableList tables={tables} deleteRecipe={deleteRecipe}/>
     </main>
   );
 }

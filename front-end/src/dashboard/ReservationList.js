@@ -1,7 +1,7 @@
 import React from "react";
 import ReservationView from "./ReservationView";
 
-function ReservationList({ recipes, deleteRecipe }) {
+function ReservationList({ reservations, deleteRecipe }) {
   
   // TODO: Display the list of recipes using the structure of table that is provided.
   // TODO: Create at least one additional component that is used by this component.
@@ -22,11 +22,11 @@ function ReservationList({ recipes, deleteRecipe }) {
           </tr>
         </thead>
         <tbody>
-        {recipes.map((recipe, index) => (
+        {reservations.map((reservation, index) => (
           <ReservationView
             deleteRecipe={() => deleteRecipe(index)}
             key={index}
-            recipe={recipe}
+            reservation={reservation}
           />
         ))}
         </tbody>

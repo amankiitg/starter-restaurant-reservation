@@ -1,7 +1,7 @@
 import React from "react";
 import TableView from "./TableView";
 
-function TableList({ recipes, deleteRecipe }) {
+function TableList({ tables, deleteRecipe }) {
   
   // TODO: Display the list of recipes using the structure of table that is provided.
   // TODO: Create at least one additional component that is used by this component.
@@ -18,11 +18,11 @@ function TableList({ recipes, deleteRecipe }) {
           </tr>
         </thead>
         <tbody>
-        {recipes.map((recipe, index) => (
+        {tables.map((table, index) => (
           <TableView
             deleteRecipe={() => deleteRecipe(index)}
             key={index}
-            recipe={recipe}
+            table={table}
           />
         ))}
         </tbody>

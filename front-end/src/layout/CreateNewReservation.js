@@ -2,6 +2,7 @@ import React, { useState  }  from "react";
 import ReservationForm from "./ReservationForm";
 import { createReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { today } from "../utils/date-time";
 
 function CreateNewReservation({date, setDate}) {
 
@@ -11,7 +12,7 @@ function CreateNewReservation({date, setDate}) {
         first_name: "",
         last_name: "",
         mobile_number: "",
-        reservation_date: date,
+        reservation_date: today(),
         reservation_time: "",
         people:""
       };

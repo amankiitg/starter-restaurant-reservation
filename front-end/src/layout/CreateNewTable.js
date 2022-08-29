@@ -9,7 +9,7 @@ function CreateNewTable() {
 
     const initialFormState = {
         table_name: "",
-        capacity: 1
+        capacity: ""
       };
 
     return (
