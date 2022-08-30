@@ -6,6 +6,7 @@ import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import CreateNewReservation from "./CreateNewReservation";
 import CreateNewTable from "./CreateNewTable";
+import TableAssign from "./TableAssign";
 import { today } from "../utils/date-time";
 
 /**
@@ -28,7 +29,6 @@ function Routes() {
           setDate(queryParams.get("date"));
         } else{
           setDate(today());
-          // history.push("/");
         }
 
         return () => { 
@@ -41,14 +41,17 @@ function Routes() {
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />
       </Route>
-      <Route exact={true} path="/reservations/new">
-        <CreateNewReservation date={date} setDate={setDate}/>
-      </Route>
       <Route path="/dashboard">
         <Dashboard date={date} setDate={setDate}/>
       </Route>
+      <Route path={"/reservations/:reservationsId/seat"}>
+        <TableAssign />
+      </Route>
+      <Route exact={true} path="/reservations/new">
+        <CreateNewReservation date={date} setDate={setDate}/>
+      </Route>
       <Route path="/reservations">
-      <Dashboard date={date} setDate={setDate}/>
+        <Dashboard date={date} setDate={setDate}/>
       </Route>
       <Route exact={true} path="/tables/new">
         <CreateNewTable/>
