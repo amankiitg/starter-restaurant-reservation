@@ -104,7 +104,7 @@ function hasOnlyValidProperties(req, res, next) {
          res.locals.reservation = reservation;
          return next();
        }
-       next({ status: 404, message: `Reservation cannot be found.` });
+       next({ status: 404, message: `${req.params.reservation_Id} reservation id cannot be found.` });
      })
      .catch(next);
  }
