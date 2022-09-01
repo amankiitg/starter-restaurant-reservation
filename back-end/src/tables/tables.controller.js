@@ -14,10 +14,6 @@
    "capacity",
  ];
 
- const VALID_PROPERTIES_FOR_UPDATE = [
-  "reservation_id",
-];
- 
  function validateCapacity(req, res, next) {
    const capacity = req.body.data.capacity;
    if (typeof capacity =='number') {
@@ -58,21 +54,6 @@
    }
    next();
  }
-
- function hasOnlyValidPropertiesUpdate(req, res, next) {
-  const { data = {} } = req.body;
-  const invalidFields = Object.keys(data).filter(
-    (field) => !VALID_PROPERTIES_FOR_UPDATE.includes(field)
-  );
-
-  if (invalidFields.length) {
-    return next({
-      status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}`,
-    });
-  }
-  next();
-}
   
   async function list(req, res) {
     const data = await tablesService.list();
