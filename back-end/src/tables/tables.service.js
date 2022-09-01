@@ -4,8 +4,8 @@ function list() {
   return knex("tables").select("*").orderBy('table_name', 'asc');;
 }
 
-function read(reviewId) {
-    return knex("reviews").select("*").where({ review_id: reviewId }).first();
+function read(tableId) {
+    return knex("tables").select("*").where({ table_id: tableId }).first();
   }
   
 
@@ -16,11 +16,11 @@ function create(table) {
         .then((createdRecords) => createdRecords[0]);
 }
 
-function update(updatedReview) {
-    return knex("reservations")
+function update(updatedTable) {
+    return knex("tables")
         .select("*")
-        .where({ review_id: updatedReview.review_id })
-        .update(updatedReview, "*");
+        .where({ table_id: updatedTable.table_id })
+        .update(updatedTable, "*");
 }
 
 function destroy(review_id) {

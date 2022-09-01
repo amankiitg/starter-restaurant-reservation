@@ -1,15 +1,22 @@
 /**
  * List handler for table resources
  */
+
+ const reservationsService = require("../reservations/reservations.service")
  const tablesService = require("./tables.service");
  const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
  const hasProperties = require("../errors/hasProperties");
- const hasRequiredProperties = hasProperties("table_name","capacity",);
+ const hasRequiredProperties = hasProperties("table_name","capacity");
+ const hasReservationId = hasProperties("reservation_id");
  
  const VALID_PROPERTIES = [
    "table_name",
    "capacity",
  ];
+
+ const VALID_PROPERTIES_FOR_UPDATE = [
+  "reservation_id",
+];
  
  function validateCapacity(req, res, next) {
    const capacity = req.body.data.capacity;
@@ -37,35 +44,6 @@
     next({status: 400, message: "table_name should have more than 1 characters"})
   }
  
- function validateNotTuesday(req, res, next) {
-   const stringDate = req.body.data.reservation_date
-   const date = new Date(stringDate)
-   if (date.getUTCDay()!=2) {
-     return next()
-   }
-   next({status: 400, message: `Restaurant is closed on Tuesday, ${stringDate}`})
- }
- 
- function validateFuture(req, res, next) {
-   const date = new Date(req.body.data.reservation_date)
-   const today = new Date();
-   if (date>today) {
-     return next()
-   }
-   next({status: 400, message: `Reservation can only be made for future dates`})
- }
- 
- function validateTiming(req, res, next) {
-   const timeString = req.body.data.reservation_time;
-   const datetime = new Date('1970-01-01T' + timeString + ':00Z');
-   const starttime = new Date('1970-01-01T10:30:00Z');
-   const endtime = new Date('1970-01-01T21:30:00Z');
-   if ((datetime>starttime)&&(datetime<endtime)) {
-     return next()
-   }
-   next({status: 400, message: `Reservation can only be made between 10:30AM - 09:30PM`})
- }
- 
  function hasOnlyValidProperties(req, res, next) {
    const { data = {} } = req.body;
    const invalidFields = Object.keys(data).filter(
@@ -80,27 +58,42 @@
    }
    next();
  }
+
+ function hasOnlyValidPropertiesUpdate(req, res, next) {
+  const { data = {} } = req.body;
+  const invalidFields = Object.keys(data).filter(
+    (field) => !VALID_PROPERTIES_FOR_UPDATE.includes(field)
+  );
+
+  if (invalidFields.length) {
+    return next({
+      status: 400,
+      message: `Invalid field(s): ${invalidFields.join(", ")}`,
+    });
+  }
+  next();
+}
   
   async function list(req, res) {
     const data = await tablesService.list();
     res.json({ data });
   }
   
-  function movieExists(req, res, next) {
-   reservationsService
-      .read(req.params.movieId)
-      .then((movie) => {
-        if (movie) {
-          res.locals.product = movie;
+  function tableExists(req, res, next) {
+    tablesService
+      .read(req.params.table_id)
+      .then((table) => {
+        if (table) {
+          res.locals.table = table;
           return next();
         }
-        next({ status: 404, message: `Movie cannot be found.` });
+        next({ status: 404, message: `Table cannot be found.` });
       })
       .catch(next);
   }
   
   function read(req, res) {
-    const { product: data } = res.locals;
+    const { table: data } = res.locals;
     res.json({ data });
   }
  
@@ -116,29 +109,71 @@
  }
  
  async function update(req, res, next) {
-   const updatedReview = {
-     ...req.body.data,
-     review_id: res.locals.review.review_id,
+   const updatedTable = {
+     ...req.body.table,
+     table_id: res.locals.table.table_id,
+     reservation_id: res.locals.reservation.reservation_id,
    };
-   const output = await tablesService.update(updatedReview);
-   //const data = await reservationsService.read_update(res.locals.review.review_id);
+   const output = await tablesService.update(updatedTable);
    res.json({ output });
  }
  
  function destroy(req, res, next) {
-    tablesService
-     .destroy(res.locals.review.review_id)
-     .then(() => res.sendStatus(204))
+  // const updatedTable = {
+  //   ...req.body.data,
+  //   table_id: res.locals.table.table_id,
+  // };
+  // const output = await tablesService.update(updatedTable);
+  // res.json({ output });
+    const { table: data } = res.locals;
+    res.json({ data });
+ }
+
+ function reservationExists(req, res, next) {
+  
+  const reservation_Id = req.body.data.reservation_id;
+  reservationsService
+     .read(reservation_Id)
+     .then((reservation) => {
+       if (reservation) {
+         //console.log('Checking from Tables reservationExists', reservation)
+         res.locals.reservation = reservation;
+         return next();
+       }
+       next({ status: 404, message: `${reservation_Id} cannot be found.` });
+     })
      .catch(next);
  }
+
+ function checkTableCapacity(req, res, next) {
+
+   const table = res.locals.table;
+   const reservation = res.locals.reservation;
+   
+  if (table.capacity>=reservation.people) {
+    return next()
+  }
+  next({status: 400, message: "Table does not have sufficient capacity"})
+}
+
+function checkTableAvaible(req, res, next) {
+  
+  const table = res.locals.table;
+  
+ if (!table.reservation_id) {
+   return next()
+ }
+ next({status: 400, message: "Table is currently occupied"})
+}
   
   module.exports = {
     list: asyncErrorBoundary(list),
-    read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
-    movieExists : asyncErrorBoundary(movieExists),
+    read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
    create: [hasOnlyValidProperties, hasRequiredProperties, 
     validateName, validateCapacity, validateCapacityValue,
      asyncErrorBoundary(create)],
-   update: [asyncErrorBoundary(movieExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
-   delete: [asyncErrorBoundary(movieExists), asyncErrorBoundary(destroy)],
+   update: [asyncErrorBoundary(tableExists), hasReservationId, 
+    asyncErrorBoundary(reservationExists),   asyncErrorBoundary(checkTableAvaible),
+    asyncErrorBoundary(checkTableCapacity), asyncErrorBoundary(update)],
+   delete: [asyncErrorBoundary(tableExists), asyncErrorBoundary(destroy)],
   };

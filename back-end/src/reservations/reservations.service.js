@@ -11,8 +11,11 @@ function listForDate(date) {
         .orderBy('reservation_time', 'asc');
 }
 
-function read(reviewId) {
-    return knex("reviews").select("*").where({ review_id: reviewId }).first();
+function read(reservation_Id) {
+    return knex("reservations")
+        .select("*")
+        .where({ reservation_id: reservation_Id })
+        .first();
   }
   
 

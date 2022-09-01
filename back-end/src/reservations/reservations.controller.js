@@ -96,21 +96,21 @@ function hasOnlyValidProperties(req, res, next) {
      }
  }
  
- function movieExists(req, res, next) {
+ function reservationExists(req, res, next) {
   reservationsService
-     .read(req.params.movieId)
-     .then((movie) => {
-       if (movie) {
-         res.locals.product = movie;
+     .read(req.params.reservation_Id)
+     .then((reservation) => {
+       if (reservation) {
+         res.locals.reservation = reservation;
          return next();
        }
-       next({ status: 404, message: `Movie cannot be found.` });
+       next({ status: 404, message: `Reservation cannot be found.` });
      })
      .catch(next);
  }
  
  function read(req, res) {
-   const { product: data } = res.locals;
+   const { reservation: data } = res.locals;
    res.json({ data });
  }
 
@@ -143,13 +143,13 @@ function destroy(req, res, next) {
 }
  
  module.exports = {
-   list: asyncErrorBoundary(list),
-   read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
-   movieExists : asyncErrorBoundary(movieExists),
-  create: [hasOnlyValidProperties, hasRequiredProperties, 
-    validatePeople, validateDate, validateTime, 
-    validateFuture, validateNotTuesday, validateTiming,
-    asyncErrorBoundary(create)],
-  update: [asyncErrorBoundary(movieExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
-  delete: [asyncErrorBoundary(movieExists), asyncErrorBoundary(destroy)],
+    list: asyncErrorBoundary(list),
+    read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
+    reservationExists : asyncErrorBoundary(reservationExists),
+    create: [hasOnlyValidProperties, hasRequiredProperties, 
+      validatePeople, validateDate, validateTime, 
+      validateFuture, validateNotTuesday, validateTiming,
+      asyncErrorBoundary(create)],
+    update: [asyncErrorBoundary(reservationExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
+    delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
  };
