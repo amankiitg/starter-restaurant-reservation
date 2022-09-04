@@ -12,6 +12,7 @@
  const VALID_PROPERTIES = [
    "table_name",
    "capacity",
+   "reservation_id"
  ];
 
  function validateCapacity(req, res, next) {
@@ -69,7 +70,7 @@
           res.locals.table = table;
           return next();
         }
-        next({ status: 404, message: `${tableId} Table cannot be found.` });
+        next({ status: 404, message: `Table ${tableId} cannot be found.` });
       })
       .catch(next);
   }
