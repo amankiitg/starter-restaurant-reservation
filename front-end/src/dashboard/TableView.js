@@ -1,6 +1,6 @@
 import React from "react";
 
-function TableView({ table, deleteRecipe }) {
+function TableView({ table, finishTable }) {
 
   let status;
   if (!table.reservation_id) {
@@ -15,7 +15,10 @@ function TableView({ table, deleteRecipe }) {
         <td>          {table.capacity}        </td>
         <td>          {status}                </td>
         <td>
-          <button name="delete" onClick={deleteRecipe}>
+          <button 
+            className="btn btn-danger" 
+            name="delete" 
+            onClick={finishTable}>
             Finish
           </button>
         </td>

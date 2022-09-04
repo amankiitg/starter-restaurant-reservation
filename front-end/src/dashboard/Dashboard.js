@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import { useLocation, useHistory } from "react-router-dom";
-import { listTables, listReservations } from "../utils/api";
+import { useHistory } from "react-router-dom";
+import { listTables, listReservations, finishTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "./ReservationList";
 import TableList from "./TableList";
@@ -20,6 +20,8 @@ function Dashboard({ date, setDate }) {
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
 
+  const history = useHistory();
+
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
@@ -38,6 +40,24 @@ function Dashboard({ date, setDate }) {
   }
 
   
+  function finishTable(table_id) {
+
+    const abortController = new AbortController();
+
+    const result = window.confirm("Is this table ready to seat new guests? This cannot be undone.");
+    if (result) {
+      setTablesError(null);
+      finishTables(table_id, abortController.signal)
+        .then(()=>{
+          console.log('Finishing Table..',table_id)
+          history.push("/");
+        })
+        .catch(setTablesError);
+    }
+
+    return () => abortController.abort();
+  }
+
   function deleteRecipe() {
     const abortController = new AbortController();
     setReservationsError(null);
@@ -60,7 +80,7 @@ function Dashboard({ date, setDate }) {
         <h4 className="mb-0">Tables</h4>
       </div>
       <ErrorAlert error={tablesError} />
-      <TableList tables={tables} deleteRecipe={deleteRecipe}/>
+      <TableList tables={tables} finishTable={finishTable}/>
     </main>
   );
 }

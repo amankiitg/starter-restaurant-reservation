@@ -34,7 +34,7 @@ function TableAssign() {
 
     loadTables();
     loadReservation(reservationsId);
-    }, []);
+    }, [reservationsId]);
 
     const submitHandler = async (event) => {
 

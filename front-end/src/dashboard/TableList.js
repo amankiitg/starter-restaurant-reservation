@@ -1,12 +1,8 @@
 import React from "react";
 import TableView from "./TableView";
 
-function TableList({ tables, deleteRecipe }) {
+function TableList({ tables, finishTable }) {
   
-  // TODO: Display the list of recipes using the structure of table that is provided.
-  // TODO: Create at least one additional component that is used by this component.
-  // TODO: Each recipe row must have a delete button - <button name="delete">Delete</button> - that deletes the post when clicked
-
   return (
     <div className="recipe-list">
       <table>
@@ -21,9 +17,9 @@ function TableList({ tables, deleteRecipe }) {
         <tbody>
         {tables.map((table, index) => (
           <TableView
-            deleteRecipe={() => deleteRecipe(index)}
             key={index}
             table={table}
+            finishTable={() => finishTable(table.table_id)}
           />
         ))}
         </tbody>
