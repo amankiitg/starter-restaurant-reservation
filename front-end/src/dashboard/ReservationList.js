@@ -1,7 +1,7 @@
 import React from "react";
 import ReservationView from "./ReservationView";
 
-function ReservationList({ reservations, deleteRecipe }) {
+function ReservationList({ reservations, cancelReservation}) {
 
   if(reservations.length>0){
     return (
@@ -9,6 +9,8 @@ function ReservationList({ reservations, deleteRecipe }) {
         <table>
           <thead>
             <tr>
+              <th>Cancel</th>
+              <th>Edit</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Mobile Number</th>
@@ -22,9 +24,9 @@ function ReservationList({ reservations, deleteRecipe }) {
           <tbody>
           {reservations.map((reservation) => (
             <ReservationView
-              deleteRecipe={() => deleteRecipe(reservation.reservation_id)}
               key={reservation.reservation_id}
               reservation={reservation}
+              cancelReservation={() => cancelReservation(reservation.reservation_id)}
             />
           ))}
           </tbody>
@@ -32,7 +34,7 @@ function ReservationList({ reservations, deleteRecipe }) {
       </div>
     );
   }
-  return null;
+  return "No reservations found";
   
 }
 

@@ -70,9 +70,7 @@ export async function listReservations(params, signal) {
 
 export async function searchReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
-  Object.entries(params).forEach(([key, value]) =>
-    url.searchParams.append(key, value.toString())
-  );
+  url.searchParams.append('mobile_number', params.toString())
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -98,6 +96,32 @@ export async function createReservations(reservation, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+export async function updateReservations(reservation, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation.reservation_id}`);
+  reservation.people = parseInt(reservation.people)
+  const options = {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({ data: reservation }),
+      signal,
+  };
+  return await fetchJson(url, options, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+export async function cancelReservations(reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  const options = {
+      method: "PUT",
+      body: JSON.stringify({ data: {'status':'cancelled'} }),
+      headers,
+      signal,
+  };
+  return await fetchJson(url, options, []);
+}
+
 
 export async function listTables(params, signal) {
   const url = new URL(`${API_BASE_URL}/tables`);

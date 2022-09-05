@@ -1,12 +1,15 @@
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import React, {useEffect, useState } from "react";
+import { today } from "../utils/date-time";
+
 import Dashboard from "../dashboard/Dashboard";
-import NotFound from "./NotFound";
 import CreateNewReservation from "./CreateNewReservation";
+import EditReservation from "./EditReservation.js";
 import CreateNewTable from "./CreateNewTable";
 import TableAssign from "./TableAssign";
+import NotFound from "./NotFound";
 import Search from "./Search";
-import { today } from "../utils/date-time";
+
 
 /**
  * Defines all the routes for the application.
@@ -23,7 +26,6 @@ function Routes() {
 
   useEffect(() => {
         let queryParams = new URLSearchParams(url.search);
-        // console.log('Url in Routes', url, queryParams.get("date"));
         if(queryParams.get("date")){
           setDate(queryParams.get("date"));
         } else{
@@ -46,8 +48,11 @@ function Routes() {
       <Route path={"/reservations/:reservationsId/seat"}>
         <TableAssign />
       </Route>
+      <Route path={"/reservations/:reservationsId/edit"}>
+        <EditReservation />
+      </Route>
       <Route exact={true} path="/reservations/new">
-        <CreateNewReservation date={date} setDate={setDate}/>
+        <CreateNewReservation />
       </Route>
       <Route path="/reservations">
         <Dashboard date={date} setDate={setDate}/>

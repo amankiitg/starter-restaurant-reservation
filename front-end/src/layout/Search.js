@@ -1,6 +1,5 @@
 import React, { useState  }  from "react";
 import { searchReservations } from "../utils/api";
-import CancelButton from "./CancelButton";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../dashboard/ReservationList";
 
@@ -27,7 +26,8 @@ function Search() {
         setFormData({ ...initialFormState });
         console.log("Submitting..", formData);
 
-        searchReservations(formData, abortController.signal)
+        const mobile_number = formData.mobile_number;
+        searchReservations(mobile_number, abortController.signal)
         .then((response) => {
             setReservations(response)
         })
@@ -41,15 +41,6 @@ function Search() {
         }  
 
       };
-
-      function deleteRecipe() {
-        const abortController = new AbortController();
-        setReservationsError(null);
-        searchReservations({}, abortController.signal)
-          .then(setReservations)
-          .catch(setReservationsError);
-        return () => abortController.abort();
-      }
 
     return (
         <main>
@@ -68,15 +59,16 @@ function Search() {
                         value={formData.mobile_number}
                         />
                 </div>
-                <CancelButton/>
-                <button type="submit" className="btn btn-primary mx-3">Search</button>
+                <button type="submit" className="btn btn-primary">
+                    Search
+                </button>
             </form>
         </div>
             <div>
             <ErrorAlert error={reservationsError} />
             <div>
-                <h4 className="mb-0">Search result</h4>
-                <ReservationList reservations={reservations} deleteRecipe={deleteRecipe}/>
+                <h4 className="mb-0 my-3">Search Result</h4>
+                <ReservationList reservations={reservations}/>
             </div>
         </div>
     </main>

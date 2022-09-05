@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ReservationView({ reservation, deleteRecipe }) {
+function ReservationView({ reservation, cancelReservation }) {
 
     let seatButton;
-    if (reservation.status!=='seated') {
+    if (reservation.status==='booked') {
       seatButton = <Link to={`/reservations/${reservation.reservation_id}/seat`}>
       <button className="btn btn-secondary">
         Seat
@@ -14,6 +14,21 @@ function ReservationView({ reservation, deleteRecipe }) {
 
     return (
       <tr>
+        <td data-reservation-id-cancel={reservation.reservation_id}>
+          <button 
+            className="btn btn-danger" 
+            name="delete" 
+            onClick={cancelReservation}>
+            Cancel
+          </button>
+        </td>
+        <td>  
+          <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+            <button className="btn btn-warning">
+              Edit
+            </button>
+          </Link>
+        </td>
         <td>          {reservation.first_name}         </td>
         <td>          {reservation.last_name}        </td>
         <td>          {reservation.mobile_number}        </td>

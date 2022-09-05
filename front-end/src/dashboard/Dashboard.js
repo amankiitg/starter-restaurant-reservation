@@ -58,12 +58,22 @@ function Dashboard({ date, setDate }) {
     return () => abortController.abort();
   }
 
-  function deleteRecipe() {
+
+  function cancelReservation(reservation_id) {
+
     const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+
+    const result = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
+    if (result) {
+      setTablesError(null);
+      finishTables(reservation_id, abortController.signal)
+        .then(()=>{
+          console.log('Cancelling Reservation..',reservation_id)
+          history.push("/");
+        })
+        .catch(setTablesError);
+    }
+
     return () => abortController.abort();
   }
 
@@ -72,12 +82,12 @@ function Dashboard({ date, setDate }) {
       <h1>Dashboard</h1>
       <DateChange date={date} setDate={setDate}/>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date {date}</h4>
+        <h4 className="mb-0 mt-4">Reservations for date {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationList reservations={reservations} deleteRecipe={deleteRecipe}/>
+      <ReservationList reservations={reservations} cancelReservation={cancelReservation}/>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Tables</h4>
+        <h4 className="mb-0 mt-5">Tables</h4>
       </div>
       <ErrorAlert error={tablesError} />
       <TableList tables={tables} finishTable={finishTable}/>

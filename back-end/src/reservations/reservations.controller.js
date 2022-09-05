@@ -147,11 +147,9 @@ function hasOnlyValidProperties(req, res, next) {
  }
 
  function create(req, res, next) {
-  // console.log('Inserting.. ',req.body.data)
   reservationsService
     .create(req.body.data)
     .then((data) => {
-      // console.log('Sucessfully inserted');
       res.status(201).json({ data })
     })
     .catch(next);
@@ -166,7 +164,6 @@ async function update(req, res, next) {
   reservationsService
     .update(updatedReservation)
     .then((output) => {
-      // console.log('Output',output)
       res.json({ data: output[0] })
     })
     .catch(next);

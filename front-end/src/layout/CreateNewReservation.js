@@ -4,7 +4,7 @@ import { createReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today } from "../utils/date-time";
 
-function CreateNewReservation({date, setDate}) {
+function CreateNewReservation() {
 
     const [reservationsError, setReservationsError] = useState(null);
 

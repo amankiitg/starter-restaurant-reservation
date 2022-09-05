@@ -11,7 +11,7 @@ function TableList({ tables, finishTable }) {
             <th>Table Name</th>
             <th>Capacity</th>
             <th>Status</th>
-            <th>Finsh</th>
+            <th>Finish</th>
           </tr>
         </thead>
         <tbody>
