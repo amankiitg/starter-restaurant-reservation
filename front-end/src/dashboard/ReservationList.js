@@ -21,10 +21,10 @@ function ReservationList({ reservations, deleteRecipe }) {
           </tr>
         </thead>
         <tbody>
-        {reservations.map((reservation, index) => (
+        {reservations.map((reservation) => (
           <ReservationView
-            deleteRecipe={() => deleteRecipe(index)}
-            key={index}
+            deleteRecipe={() => deleteRecipe(reservation.reservation_id)}
+            key={reservation.reservation_id}
             reservation={reservation}
           />
         ))}

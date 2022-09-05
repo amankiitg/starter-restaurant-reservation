@@ -15,9 +15,9 @@ function TableList({ tables, finishTable }) {
           </tr>
         </thead>
         <tbody>
-        {tables.map((table, index) => (
+        {tables.map((table) => (
           <TableView
-            key={index}
+            key={table.table_id}
             table={table}
             finishTable={() => finishTable(table.table_id)}
           />

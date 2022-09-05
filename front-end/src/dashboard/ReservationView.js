@@ -2,6 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function ReservationView({ reservation, deleteRecipe }) {
+
+    let seatButton;
+    if (reservation.status!=='seated') {
+      seatButton = <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+      <button className="btn btn-secondary">
+        Seat
+      </button>
+      </Link>
+    }
+
     return (
       <tr>
         <td>          {reservation.first_name}         </td>
@@ -14,11 +24,7 @@ function ReservationView({ reservation, deleteRecipe }) {
                     {reservation.status}        
         </td>
         <td>
-          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-            <button className="btn btn-secondary">
-              Seat
-            </button>
-          </Link>
+          {seatButton}
         </td>
       </tr>
     );
