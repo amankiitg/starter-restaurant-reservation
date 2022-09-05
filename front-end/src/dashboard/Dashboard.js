@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { listTables, listReservations, finishTables } from "../utils/api";
+import { listTables, listReservations, finishTables, cancelReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "./ReservationList";
 import TableList from "./TableList";
@@ -65,13 +65,13 @@ function Dashboard({ date, setDate }) {
 
     const result = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
     if (result) {
-      setTablesError(null);
-      finishTables(reservation_id, abortController.signal)
+      setReservationsError(null);
+      cancelReservations(reservation_id, abortController.signal)
         .then(()=>{
           console.log('Cancelling Reservation..',reservation_id)
           history.push("/");
         })
-        .catch(setTablesError);
+        .catch(setReservationsError);
     }
 
     return () => abortController.abort();

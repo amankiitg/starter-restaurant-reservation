@@ -4,12 +4,19 @@ import { Link } from "react-router-dom";
 function ReservationView({ reservation, cancelReservation }) {
 
     let seatButton;
+    let editButton;
     if (reservation.status==='booked') {
       seatButton = <Link to={`/reservations/${reservation.reservation_id}/seat`}>
       <button className="btn btn-secondary">
         Seat
       </button>
       </Link>
+
+      editButton = <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+      <button className="btn btn-warning">
+        Edit
+      </button>
+    </Link>
     }
 
     return (
@@ -17,17 +24,13 @@ function ReservationView({ reservation, cancelReservation }) {
         <td data-reservation-id-cancel={reservation.reservation_id}>
           <button 
             className="btn btn-danger" 
-            name="delete" 
+            name="put" 
             onClick={cancelReservation}>
             Cancel
           </button>
         </td>
         <td>  
-          <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-            <button className="btn btn-warning">
-              Edit
-            </button>
-          </Link>
+          {editButton}
         </td>
         <td>          {reservation.first_name}         </td>
         <td>          {reservation.last_name}        </td>
