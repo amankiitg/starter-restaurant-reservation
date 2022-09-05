@@ -14,6 +14,7 @@ const VALID_PROPERTIES = [
   "reservation_date",
   "reservation_time",
   "people",
+  "status",
 ];
 
 function validateDate(req, res, next) {
@@ -70,6 +71,31 @@ function validateTiming(req, res, next) {
   next({status: 400, message: `Reservation can only be made between 10:30AM - 09:30PM`})
 }
 
+function validateStatusCreate(req, res, next) {
+  const status = req.body.data.status
+  if ((status=='booked')||(!status)) {
+    return next()
+  }
+  next({status: 400, message: `status cannot be ${status}`})
+}
+
+function validateStatusUpdate(req, res, next) {
+  const status = req.body.data.status
+  const allowedStatus = ["booked", "seated", "finished"];
+  if (allowedStatus.includes(status)) {
+    return next()
+  }
+  next({status: 400, message: `${status} status is not allowed`})
+}
+
+function validateStatusNotFinished(req, res, next) {
+  const existingStatus = res.locals.reservation.status;
+  if ((existingStatus!='finished')) {
+    return next()
+  }
+  next({status: 400, message: `${existingStatus} status cannot be updated`})
+}
+
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
   const invalidFields = Object.keys(data).filter(
@@ -88,7 +114,9 @@ function hasOnlyValidProperties(req, res, next) {
  async function list(req, res) {
      const date = req.query.date;
      if(date){
-       const data = await reservationsService.listForDate(date);
+       const reservations = await reservationsService.listForDate(date);
+       data = reservations.filter((reservation) => reservation.status !== 'finished');
+      //  console.log('GET Reservation with date',data)
        res.json({ data });
      } else{
        const data = await reservationsService.list();
@@ -126,13 +154,18 @@ function hasOnlyValidProperties(req, res, next) {
 }
 
 async function update(req, res, next) {
-  const updatedReview = {
-    ...req.body.data,
-    review_id: res.locals.review.review_id,
+  const newStatus = req.body.data.status;
+  const updatedReservation = {
+    ...res.locals.reservation,
+    status: newStatus,
   };
-  const output = await reservationsService.update(updatedReview);
-  //const data = await reservationsService.read_update(res.locals.review.review_id);
-  res.json({ output });
+  reservationsService
+    .update(updatedReservation)
+    .then((output) => {
+      // console.log('Output',output)
+      res.json({ data: output[0] })
+    })
+    .catch(next);
 }
 
 function destroy(req, res, next) {
@@ -145,11 +178,11 @@ function destroy(req, res, next) {
  module.exports = {
     list: asyncErrorBoundary(list),
     read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
-    reservationExists : asyncErrorBoundary(reservationExists),
     create: [hasOnlyValidProperties, hasRequiredProperties, 
       validatePeople, validateDate, validateTime, 
-      validateFuture, validateNotTuesday, validateTiming,
-      asyncErrorBoundary(create)],
-    update: [asyncErrorBoundary(reservationExists), hasOnlyValidProperties, asyncErrorBoundary(update)],
+      validateFuture, validateNotTuesday, validateTiming, 
+      validateStatusCreate,  asyncErrorBoundary(create)],
+    update: [asyncErrorBoundary(reservationExists), hasOnlyValidProperties, 
+      validateStatusUpdate, validateStatusNotFinished, asyncErrorBoundary(update)],
     delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
  };

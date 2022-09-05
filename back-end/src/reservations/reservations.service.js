@@ -26,11 +26,11 @@ function create(reservation) {
         .then((createdRecords) => createdRecords[0]);
 }
 
-function update(updatedReview) {
+function update(updatedReservation) {
     return knex("reservations")
         .select("*")
-        .where({ review_id: updatedReview.review_id })
-        .update(updatedReview, "*");
+        .where({ reservation_id: updatedReservation.reservation_id })
+        .update(updatedReservation, "*");
 }
 
 function destroy(review_id) {

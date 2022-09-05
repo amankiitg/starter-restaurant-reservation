@@ -92,6 +92,13 @@
  }
  
  async function update(req, res, next) {
+
+  const updatedReservation = {
+    ...res.locals.reservation,
+    status: 'seated',
+  };
+  await reservationsService.update(updatedReservation).catch(next);
+
    const updatedTable = {
      ...req.body.table,
      table_id: res.locals.table.table_id,
@@ -99,9 +106,18 @@
    };
    const output = await tablesService.update(updatedTable);
    res.json({ output });
+
  }
  
  async function destroy(req, res, next) {
+
+  const updatedReservation = {
+    ...res.locals.reservation,
+    status: 'finished',
+  };
+
+  await reservationsService.update(updatedReservation).catch(next);
+
   const updatedTable = {
     ...req.body.data,
     table_id: res.locals.table.table_id,
@@ -113,12 +129,16 @@
 
  function reservationExists(req, res, next) {
   
-  const reservation_Id = req.body.data.reservation_id;
+  let reservation_Id = null;
+  if(req.body.data){
+    reservation_Id = req.body.data.reservation_id;
+  } else {
+    reservation_Id = res.locals.table.reservation_id;
+  }
   reservationsService
      .read(reservation_Id)
      .then((reservation) => {
        if (reservation) {
-         //console.log('Checking from Tables reservationExists', reservation)
          res.locals.reservation = reservation;
          return next();
        }
@@ -136,6 +156,16 @@
     return next()
   }
   next({status: 400, message: "Table does not have sufficient capacity"})
+}
+
+function checkReservationSeated(req, res, next) {
+
+  const reservation = res.locals.reservation;
+  // console.log('Check reservation seated',reservation,reservation.status); 
+  if (reservation.status!=='seated') {
+    return next()
+  }
+  next({status: 400, message: "Reservation party is already seated"})
 }
 
 function checkTableAvaible(req, res, next) {
@@ -166,6 +196,8 @@ function checkTableOccupied(req, res, next) {
      asyncErrorBoundary(create)],
    update: [asyncErrorBoundary(tableExists), hasReservationId, 
     asyncErrorBoundary(reservationExists),   asyncErrorBoundary(checkTableAvaible),
-    asyncErrorBoundary(checkTableCapacity), asyncErrorBoundary(update)],
-   delete: [asyncErrorBoundary(tableExists), asyncErrorBoundary(checkTableOccupied), asyncErrorBoundary(destroy)],
+    asyncErrorBoundary(checkTableCapacity), asyncErrorBoundary(checkReservationSeated),
+    asyncErrorBoundary(update)],
+   delete: [asyncErrorBoundary(tableExists), asyncErrorBoundary(checkTableOccupied), 
+    asyncErrorBoundary(reservationExists),    asyncErrorBoundary(destroy)],
   };
