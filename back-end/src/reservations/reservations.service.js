@@ -33,6 +33,15 @@ function update(updatedReservation) {
         .update(updatedReservation, "*");
 }
 
+function search(mobile_number) {
+  return knex("reservations")
+    .whereRaw(
+      "translate(mobile_number, '() -', '') like ?",
+      `%${mobile_number.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+}
+
 function destroy(review_id) {
     return knex("reservations").where({ review_id }).del();
 }
@@ -41,6 +50,7 @@ function destroy(review_id) {
 module.exports = {
   list,
   listForDate,
+  search,
   read,
   create,
   update,

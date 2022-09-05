@@ -113,12 +113,16 @@ function hasOnlyValidProperties(req, res, next) {
  
  async function list(req, res) {
      const date = req.query.date;
+     const mobile_number = req.query.mobile_number;
      if(date){
        const reservations = await reservationsService.listForDate(date);
        data = reservations.filter((reservation) => reservation.status !== 'finished');
-      //  console.log('GET Reservation with date',data)
        res.json({ data });
-     } else{
+     } else if(mobile_number){
+       const data = await reservationsService.search(mobile_number);
+       res.json({ data });
+     }
+     else {
        const data = await reservationsService.list();
        res.json({ data });
      }

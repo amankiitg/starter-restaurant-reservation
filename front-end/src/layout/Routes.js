@@ -1,12 +1,11 @@
-// import React, { useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
-// import { useLocation, useHistory } from "react-router-dom";
 import React, {useEffect, useState } from "react";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import CreateNewReservation from "./CreateNewReservation";
 import CreateNewTable from "./CreateNewTable";
 import TableAssign from "./TableAssign";
+import Search from "./Search";
 import { today } from "../utils/date-time";
 
 /**
@@ -55,6 +54,9 @@ function Routes() {
       </Route>
       <Route exact={true} path="/tables/new">
         <CreateNewTable/>
+      </Route>
+      <Route exact={true} path="/search">
+        <Search/>
       </Route>
       <Route>
         <NotFound />

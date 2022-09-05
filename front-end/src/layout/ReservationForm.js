@@ -2,7 +2,7 @@ import React, { useState  }  from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-function ReservationForm({initialFormState, deckFunction, setReservationsError}) {
+function ReservationForm({initialFormState, reservationFunction, setReservationsError}) {
 
     const [formData, setFormData] = useState({ ...initialFormState });
 
@@ -22,7 +22,7 @@ function ReservationForm({initialFormState, deckFunction, setReservationsError})
         setFormData({ ...initialFormState });
         console.log("Submitting..", formData);
 
-        deckFunction(formData, abortController.signal)
+        reservationFunction(formData, abortController.signal)
         .then((response) => {
             console.log("Saved user!", response);
             const newPath = `/dashboard/?date=${formData.reservation_date}`

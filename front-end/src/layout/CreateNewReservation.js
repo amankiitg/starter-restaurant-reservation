@@ -21,7 +21,7 @@ function CreateNewReservation({date, setDate}) {
         <section>
         <h2>New Reservation</h2>
         <ErrorAlert error={reservationsError} />
-        <ReservationForm initialFormState={initialFormState} deckFunction={createReservations} setReservationsError={setReservationsError}/>
+        <ReservationForm initialFormState={initialFormState} reservationFunction={createReservations} setReservationsError={setReservationsError}/>
         </section>
     )
   }
