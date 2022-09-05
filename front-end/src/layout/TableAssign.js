@@ -42,12 +42,10 @@ function TableAssign() {
 
         event.preventDefault();
         const reservation = {reservation_id: reservationsId};
-        console.log("Submitting..", );
-
         
         assignTable(tableId, reservation, abortController.signal)
         .then((response) => {
-            console.log("Assigned table!", response);
+            console.log("Assigned table!");
             history.push("/");
         })
         .catch((error) => {

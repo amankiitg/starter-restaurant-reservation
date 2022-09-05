@@ -81,11 +81,9 @@
   }
  
   function create(req, res, next) {
-   // console.log('Inserting.. ',req.body.data)
    tablesService
      .create(req.body.data)
      .then((data) => {
-       // console.log('Sucessfully inserted');
        res.status(201).json({ data })
      })
      .catch(next);
@@ -97,14 +95,13 @@
     ...res.locals.reservation,
     status: 'seated',
   };
-  await reservationsService.update(updatedReservation).catch(next);
 
    const updatedTable = {
      ...req.body.table,
      table_id: res.locals.table.table_id,
      reservation_id: res.locals.reservation.reservation_id,
    };
-   const output = await tablesService.update(updatedTable);
+   const output = await tablesService.update(updatedTable, updatedReservation);
    res.json({ output });
 
  }
@@ -116,14 +113,12 @@
     status: 'finished',
   };
 
-  await reservationsService.update(updatedReservation).catch(next);
-
   const updatedTable = {
     ...req.body.data,
     table_id: res.locals.table.table_id,
     reservation_id: null,
   };
-  const output = await tablesService.update(updatedTable);
+  const output = await tablesService.update(updatedTable,updatedReservation);
   res.json({ output });
  }
 

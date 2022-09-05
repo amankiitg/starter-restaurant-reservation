@@ -2,8 +2,6 @@ import React from "react";
 import ReservationView from "./ReservationView";
 
 function ReservationList({ reservations, deleteRecipe }) {
-  
-  // reservations = reservations.filter((reservation) => reservation.status !== 'finished');
 
   return (
     <div className="recipe-list">
