@@ -81,7 +81,7 @@ function validateStatusCreate(req, res, next) {
 
 function validateStatusUpdate(req, res, next) {
   const status = req.body.data.status
-  const allowedStatus = ["booked", "seated", "finished"];
+  const allowedStatus = ["booked", "seated", "finished","cancelled"];
   if (allowedStatus.includes(status)) {
     return next()
   }
@@ -155,11 +155,24 @@ function hasOnlyValidProperties(req, res, next) {
     .catch(next);
 }
 
-async function update(req, res, next) {
+async function updateStatus(req, res, next) {
   const newStatus = req.body.data.status;
   const updatedReservation = {
     ...res.locals.reservation,
     status: newStatus,
+  };
+  reservationsService
+    .update(updatedReservation)
+    .then((output) => {
+      res.json({ data: output[0] })
+    })
+    .catch(next);
+}
+
+async function update(req, res, next) {
+  const updatedReservation = {
+    ...req.body.data,
+    reservation_id: res.locals.reservation.reservation_id,
   };
   reservationsService
     .update(updatedReservation)
@@ -183,7 +196,9 @@ function destroy(req, res, next) {
       validatePeople, validateDate, validateTime, 
       validateFuture, validateNotTuesday, validateTiming, 
       validateStatusCreate,  asyncErrorBoundary(create)],
-    update: [asyncErrorBoundary(reservationExists), hasOnlyValidProperties, 
-      validateStatusUpdate, validateStatusNotFinished, asyncErrorBoundary(update)],
+    updateStatus: [asyncErrorBoundary(reservationExists), hasOnlyValidProperties, 
+      validateStatusUpdate, validateStatusNotFinished, asyncErrorBoundary(updateStatus)],
+    updateReservation: [asyncErrorBoundary(reservationExists), hasRequiredProperties, 
+      validatePeople, validateDate, validateTime, asyncErrorBoundary(update)],
     delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
  };
