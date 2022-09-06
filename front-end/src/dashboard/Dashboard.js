@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { listTables, listReservations, finishTables, cancelReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import ReservationList from "./ReservationList";
-import TableList from "./TableList";
+import ReservationList from "../reservations/ReservationList";
+import TableList from "../tables/TableList";
 import DateChange from "./DateChange";
 
 /**

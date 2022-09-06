@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { readReservation, listTables, assignTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import CancelButton from "./CancelButton";
+import CancelButton from "../layout/CancelButton";
 
 function TableAssign() {
 

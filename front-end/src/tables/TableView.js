@@ -3,10 +3,17 @@ import React from "react";
 function TableView({ table, finishTable }) {
 
   let status;
+  let finishButton;
   if (!table.reservation_id) {
     status = 'free';
   } else {
     status = 'occupied'
+    finishButton = <button 
+    className="btn btn-danger" 
+    name="delete" 
+    onClick={finishTable}>
+    Finish
+  </button>
   }
 
     return (
@@ -17,12 +24,7 @@ function TableView({ table, finishTable }) {
                     {status}                
         </td>
         <td data-table-id-finish={table.table_id}>
-          <button 
-            className="btn btn-danger" 
-            name="delete" 
-            onClick={finishTable}>
-            Finish
-          </button>
+              {finishButton}
         </td>
       </tr>
     );

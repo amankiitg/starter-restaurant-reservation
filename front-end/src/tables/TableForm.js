@@ -1,7 +1,7 @@
 // import React, { useState  }  from "react";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import CancelButton from "./CancelButton";
+import CancelButton from "../layout/CancelButton";
 
 function TableForm({formData, setFormData, deckFunction, setTablesError}) {
 

@@ -3,12 +3,12 @@ import React, {useEffect, useState } from "react";
 import { today } from "../utils/date-time";
 
 import Dashboard from "../dashboard/Dashboard";
-import CreateNewReservation from "./CreateNewReservation";
-import EditReservation from "./EditReservation.js";
-import CreateNewTable from "./CreateNewTable";
-import TableAssign from "./TableAssign";
+import CreateNewReservation from "../reservations/CreateNewReservation";
+import EditReservation from "../reservations/EditReservation.js";
+import CreateNewTable from "../tables/CreateNewTable";
+import TableAssign from "../tables/TableAssign";
 import NotFound from "./NotFound";
-import Search from "./Search";
+import Search from "../reservations/Search";
 
 
 /**

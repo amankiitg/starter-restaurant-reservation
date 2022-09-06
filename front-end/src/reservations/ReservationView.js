@@ -12,7 +12,6 @@ function ReservationView({ reservation, cancelReservation }) {
         Seat
       </button>
       </Link>
-
       editButton = <Link to={`/reservations/${reservation.reservation_id}/edit`}>
       <button className="btn btn-warning">
         Edit

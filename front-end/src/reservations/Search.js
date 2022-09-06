@@ -1,7 +1,8 @@
 import React, { useState  }  from "react";
-import { searchReservations } from "../utils/api";
+import { useHistory } from "react-router-dom";
+import { searchReservations, cancelReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import ReservationList from "../dashboard/ReservationList";
+import ReservationList from "./ReservationList";
 
 function Search() {
 
@@ -11,6 +12,7 @@ function Search() {
     const [reservations, setReservations] = useState([]);
     const [reservationsError, setReservationsError] = useState(null);
 
+    const history = useHistory();
     const handleChange = ({ target }) => {
         setFormData({
             ...formData,
@@ -42,6 +44,24 @@ function Search() {
 
       };
 
+      function cancelReservation(reservation_id) {
+
+        const abortController = new AbortController();
+    
+        const result = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
+        if (result) {
+          setReservationsError(null);
+          cancelReservations(reservation_id, abortController.signal)
+            .then(()=>{
+              console.log('Cancelling Reservation..',reservation_id)
+              history.push("/");
+            })
+            .catch(setReservationsError);
+        }
+    
+        return () => abortController.abort();
+      }
+
     return (
         <main>
         <h1>Search Reservation Using Mobile Number</h1>
@@ -68,7 +88,7 @@ function Search() {
             <ErrorAlert error={reservationsError} />
             <div>
                 <h4 className="mb-0 my-3">Search Result</h4>
-                <ReservationList reservations={reservations}/>
+                <ReservationList reservations={reservations} cancelReservation={cancelReservation}/>
             </div>
         </div>
     </main>
