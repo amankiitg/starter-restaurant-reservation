@@ -5,6 +5,7 @@ function ReservationView({ reservation, cancelReservation }) {
 
     let seatButton;
     let editButton;
+    let cancelButton;
     if (reservation.status==='booked') {
       seatButton = <Link to={`/reservations/${reservation.reservation_id}/seat`}>
       <button className="btn btn-secondary">
@@ -19,15 +20,19 @@ function ReservationView({ reservation, cancelReservation }) {
     </Link>
     }
 
+    if (reservation.status!=='cancelled') {
+      cancelButton = <button 
+      className="btn btn-danger" 
+      name="put" 
+      onClick={cancelReservation}>
+      Cancel
+    </button>
+    }
+    
     return (
       <tr>
         <td data-reservation-id-cancel={reservation.reservation_id}>
-          <button 
-            className="btn btn-danger" 
-            name="put" 
-            onClick={cancelReservation}>
-            Cancel
-          </button>
+          {cancelButton}
         </td>
         <td>  
           {editButton}

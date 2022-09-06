@@ -82,7 +82,7 @@ function Dashboard({ date, setDate }) {
       <h1>Dashboard</h1>
       <DateChange date={date} setDate={setDate}/>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0 mt-4">Reservations for date {date}</h4>
+        <h4 className="mb-0 mt-4">Reservations for Date {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationList reservations={reservations} cancelReservation={cancelReservation}/>
