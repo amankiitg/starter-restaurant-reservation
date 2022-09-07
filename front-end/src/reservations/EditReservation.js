@@ -26,7 +26,7 @@ function EditReservation() {
   if (reservation.reservation_id) {
     return (
       <section>
-        <h2>Edit Reservation</h2>
+        <h2 className="display-4">Edit Reservation</h2>
         <ErrorAlert error={reservationsError} />
         <ReservationForm
           initialFormState={reservation}

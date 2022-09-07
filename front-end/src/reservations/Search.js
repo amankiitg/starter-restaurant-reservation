@@ -60,7 +60,7 @@ function Search() {
 
   return (
     <main>
-      <h1>Search Reservation Using Mobile Number</h1>
+      <h1 className="display-4">Search Using Mobile Number</h1>
       <div>
         <form onSubmit={submitHandler}>
           <div className="form-group">
@@ -85,7 +85,7 @@ function Search() {
       <div>
         <ErrorAlert error={reservationsError} />
         <div>
-          <h4 className="mb-0 my-3">Search Result</h4>
+          <h4 className="mb-0 my-3 h3">Search Result</h4>
           <ReservationList
             reservations={reservations}
             cancelReservation={cancelReservation}
