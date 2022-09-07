@@ -3,7 +3,7 @@ import TableView from "./TableView";
 
 function TableList({ tables, finishTable }) {
   return (
-    <div className="recipe-list">
+    <div>
       <table>
         <thead>
           <tr>

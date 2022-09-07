@@ -4,7 +4,7 @@ import ReservationView from "./ReservationView";
 function ReservationList({ reservations, cancelReservation }) {
   if (reservations.length > 0) {
     return (
-      <div className="recipe-list">
+      <div>
         <table>
           <thead>
             <tr>

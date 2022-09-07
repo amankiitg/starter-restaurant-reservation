@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { searchReservations, cancelReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import ReservationList from "./ReservationList";
+import ReservationCardList from "./ReservationCardList";
 
 function Search() {
   let initialFormState = { mobile_number: "" };
@@ -60,7 +60,7 @@ function Search() {
 
   return (
     <main>
-      <h1>Search Reservation Using Mobile Number</h1>
+      <h1 className="display-4">Search Using Mobile Number</h1>
       <div>
         <form onSubmit={submitHandler}>
           <div className="form-group">
@@ -85,8 +85,8 @@ function Search() {
       <div>
         <ErrorAlert error={reservationsError} />
         <div>
-          <h4 className="mb-0 my-3">Search Result</h4>
-          <ReservationList
+          <h4 className="mb-0 my-3 h4">Search Result</h4>
+          <ReservationCardList
             reservations={reservations}
             cancelReservation={cancelReservation}
           />

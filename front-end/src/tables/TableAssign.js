@@ -56,9 +56,9 @@ function TableAssign() {
   if (tables) {
     return (
       <main>
-        <h1>Seat Assignment</h1>
+        <h1 className="display-4">Seat Assignment</h1>
         <div className="d-md-flex mb-3">
-          <h4 className="mb-0">
+          <h4 className="mb-0 h4">
             Assigning seat for {reservation.first_name} for {reservation.people}{" "}
             people
           </h4>
