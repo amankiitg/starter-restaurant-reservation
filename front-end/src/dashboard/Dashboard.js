@@ -53,7 +53,6 @@ function Dashboard({ date, setDate }) {
       setTablesError(null);
       finishTables(table_id, abortController.signal)
         .then(() => {
-          console.log("Finishing Table..", table_id);
           history.push("/");
         })
         .catch(setTablesError);
@@ -72,7 +71,6 @@ function Dashboard({ date, setDate }) {
       setReservationsError(null);
       cancelReservations(reservation_id, abortController.signal)
         .then(() => {
-          console.log("Cancelling Reservation..", reservation_id);
           history.push("/");
         })
         .catch(setReservationsError);
