@@ -15,7 +15,7 @@ function CreateNewTable() {
 
   return (
     <section>
-      <h2 className="display-4">New Table</h2>
+      <h2>New Table</h2>
       <ErrorAlert error={tablesError} />
       <TableForm
         formData={formData}

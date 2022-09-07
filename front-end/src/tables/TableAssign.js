@@ -53,7 +53,7 @@ function TableAssign() {
     };
   };
 
-  if (tables.length > 0) {
+  if (tables) {
     return (
       <main>
         <h1>Seat Assignment</h1>

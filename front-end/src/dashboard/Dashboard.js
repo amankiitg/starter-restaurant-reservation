@@ -6,8 +6,8 @@ import {
   finishTables,
   cancelReservations,
 } from "../utils/api";
-import ReservationCardList from "../reservations/ReservationCardList";
 import ErrorAlert from "../layout/ErrorAlert";
+import ReservationList from "../reservations/ReservationList";
 import TableList from "../tables/TableList";
 import DateChange from "./DateChange";
 
@@ -81,18 +81,18 @@ function Dashboard({ date, setDate }) {
 
   return (
     <main>
-      <h1 className="display-4">Dashboard</h1>
+      <h1>Dashboard</h1>
       <DateChange date={date} setDate={setDate} />
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0 mt-4 h3">Reservations for Date {date}</h4>
+        <h4 className="mb-0 mt-4">Reservations for Date {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationCardList
+      <ReservationList
         reservations={reservations}
         cancelReservation={cancelReservation}
       />
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0 mt-5 h3">Tables</h4>
+        <h4 className="mb-0 mt-5">Tables</h4>
       </div>
       <ErrorAlert error={tablesError} />
       <TableList tables={tables} finishTable={finishTable} />

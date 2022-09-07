@@ -18,7 +18,7 @@ function CreateNewReservation() {
 
   return (
     <section>
-      <h2 className="display-4">New Reservation</h2>
+      <h2>New Reservation</h2>
       <ErrorAlert error={reservationsError} />
       <ReservationForm
         initialFormState={initialFormState}
