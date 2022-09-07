@@ -4,7 +4,7 @@ import TableView from "./TableView";
 function TableList({ tables, finishTable }) {
   return (
     <div>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th>Table Name</th>
