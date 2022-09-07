@@ -1,9 +1,8 @@
 import React from "react";
 import ReservationView from "./ReservationView";
 
-function ReservationList({ reservations, cancelReservation}) {
-
-  if(reservations.length>0){
+function ReservationList({ reservations, cancelReservation }) {
+  if (reservations.length > 0) {
     return (
       <div className="recipe-list">
         <table>
@@ -22,20 +21,21 @@ function ReservationList({ reservations, cancelReservation}) {
             </tr>
           </thead>
           <tbody>
-          {reservations.map((reservation) => (
-            <ReservationView
-              key={reservation.reservation_id}
-              reservation={reservation}
-              cancelReservation={() => cancelReservation(reservation.reservation_id)}
-            />
-          ))}
+            {reservations.map((reservation) => (
+              <ReservationView
+                key={reservation.reservation_id}
+                reservation={reservation}
+                cancelReservation={() =>
+                  cancelReservation(reservation.reservation_id)
+                }
+              />
+            ))}
           </tbody>
         </table>
       </div>
     );
   }
   return "No reservations found";
-  
 }
 
 export default ReservationList;

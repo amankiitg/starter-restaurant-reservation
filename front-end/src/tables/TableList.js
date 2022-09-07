@@ -2,7 +2,6 @@ import React from "react";
 import TableView from "./TableView";
 
 function TableList({ tables, finishTable }) {
-  
   return (
     <div className="recipe-list">
       <table>
@@ -15,13 +14,13 @@ function TableList({ tables, finishTable }) {
           </tr>
         </thead>
         <tbody>
-        {tables.map((table) => (
-          <TableView
-            key={table.table_id}
-            table={table}
-            finishTable={() => finishTable(table.table_id)}
-          />
-        ))}
+          {tables.map((table) => (
+            <TableView
+              key={table.table_id}
+              table={table}
+              finishTable={() => finishTable(table.table_id)}
+            />
+          ))}
         </tbody>
       </table>
     </div>

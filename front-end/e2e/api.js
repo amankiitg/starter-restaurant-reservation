@@ -67,7 +67,7 @@ async function updateReservation(reservation_id, status, signal) {
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: {status}}),
+    body: JSON.stringify({ data: { status } }),
     signal,
   };
   return await fetchJson(url, options, reservation);

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { listTables, listReservations, finishTables, cancelReservations } from "../utils/api";
+import {
+  listTables,
+  listReservations,
+  finishTables,
+  cancelReservations,
+} from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../reservations/ReservationList";
 import TableList from "../tables/TableList";
@@ -13,7 +18,6 @@ import DateChange from "./DateChange";
  * @returns {JSX.Element}
  */
 function Dashboard({ date, setDate }) {
-
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
@@ -30,26 +34,26 @@ function Dashboard({ date, setDate }) {
     setTablesError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);  
+      .catch(setReservationsError);
 
-      listTables({}, abortController.signal)
+    listTables({}, abortController.signal)
       .then(setTables)
-      .catch(setTablesError);    
+      .catch(setTablesError);
 
     return () => abortController.abort();
   }
 
-  
   function finishTable(table_id) {
-
     const abortController = new AbortController();
 
-    const result = window.confirm("Is this table ready to seat new guests? This cannot be undone.");
+    const result = window.confirm(
+      "Is this table ready to seat new guests? This cannot be undone."
+    );
     if (result) {
       setTablesError(null);
       finishTables(table_id, abortController.signal)
-        .then(()=>{
-          console.log('Finishing Table..',table_id)
+        .then(() => {
+          console.log("Finishing Table..", table_id);
           history.push("/");
         })
         .catch(setTablesError);
@@ -58,17 +62,17 @@ function Dashboard({ date, setDate }) {
     return () => abortController.abort();
   }
 
-
   function cancelReservation(reservation_id) {
-
     const abortController = new AbortController();
 
-    const result = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
+    const result = window.confirm(
+      "Do you want to cancel this reservation? This cannot be undone."
+    );
     if (result) {
       setReservationsError(null);
       cancelReservations(reservation_id, abortController.signal)
-        .then(()=>{
-          console.log('Cancelling Reservation..',reservation_id)
+        .then(() => {
+          console.log("Cancelling Reservation..", reservation_id);
           history.push("/");
         })
         .catch(setReservationsError);
@@ -80,17 +84,20 @@ function Dashboard({ date, setDate }) {
   return (
     <main>
       <h1>Dashboard</h1>
-      <DateChange date={date} setDate={setDate}/>
+      <DateChange date={date} setDate={setDate} />
       <div className="d-md-flex mb-3">
         <h4 className="mb-0 mt-4">Reservations for Date {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationList reservations={reservations} cancelReservation={cancelReservation}/>
+      <ReservationList
+        reservations={reservations}
+        cancelReservation={cancelReservation}
+      />
       <div className="d-md-flex mb-3">
         <h4 className="mb-0 mt-5">Tables</h4>
       </div>
       <ErrorAlert error={tablesError} />
-      <TableList tables={tables} finishTable={finishTable}/>
+      <TableList tables={tables} finishTable={finishTable} />
     </main>
   );
 }

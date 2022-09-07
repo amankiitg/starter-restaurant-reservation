@@ -1,98 +1,101 @@
-import React, { useState  }  from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { searchReservations, cancelReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "./ReservationList";
 
 function Search() {
+  let initialFormState = { mobile_number: "" };
 
-    let initialFormState = {mobile_number:""};
+  const [formData, setFormData] = useState({ ...initialFormState });
+  const [reservations, setReservations] = useState([]);
+  const [reservationsError, setReservationsError] = useState(null);
 
-    const [formData, setFormData] = useState({ ...initialFormState });
-    const [reservations, setReservations] = useState([]);
-    const [reservationsError, setReservationsError] = useState(null);
+  const history = useHistory();
+  const handleChange = ({ target }) => {
+    setFormData({
+      ...formData,
+      [target.name]: target.value,
+    });
+  };
 
-    const history = useHistory();
-    const handleChange = ({ target }) => {
-        setFormData({
-            ...formData,
-            [target.name]: target.value,
-        });
+  const submitHandler = async (event) => {
+    let abortController = new AbortController();
+
+    event.preventDefault();
+    setFormData({ ...initialFormState });
+    console.log("Submitting..", formData);
+
+    const mobile_number = formData.mobile_number;
+    searchReservations(mobile_number, abortController.signal)
+      .then((response) => {
+        setReservations(response);
+      })
+      .catch((error) => {
+        setReservationsError(error);
+        setFormData(formData);
+      });
+
+    return () => {
+      abortController.abort();
     };
+  };
 
-    const submitHandler = async (event) => {
+  function cancelReservation(reservation_id) {
+    const abortController = new AbortController();
 
-        let abortController = new AbortController();
-
-        event.preventDefault();
-        setFormData({ ...initialFormState });
-        console.log("Submitting..", formData);
-
-        const mobile_number = formData.mobile_number;
-        searchReservations(mobile_number, abortController.signal)
-        .then((response) => {
-            setReservations(response)
-        })
-        .catch((error) => {
-            setReservationsError(error);
-            setFormData(formData)
-        });
-        
-        return () => {  
-            abortController.abort();  
-        }  
-
-      };
-
-      function cancelReservation(reservation_id) {
-
-        const abortController = new AbortController();
-    
-        const result = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
-        if (result) {
-          setReservationsError(null);
-          cancelReservations(reservation_id, abortController.signal)
-            .then(()=>{
-              console.log('Cancelling Reservation..',reservation_id)
-              history.push("/");
-            })
-            .catch(setReservationsError);
-        }
-    
-        return () => abortController.abort();
-      }
-
-    return (
-        <main>
-        <h1>Search Reservation Using Mobile Number</h1>
-        <div>
-            <form onSubmit={submitHandler}>
-                <div className="form-group">
-                    <label htmlFor="mobile_number" className="form-label">Mobile Number</label>
-                    <input
-                        className="form-control"
-                        id="mobile_number"
-                        type="text"
-                        name="mobile_number"
-                        placeholder = "(___)-___-_____"
-                        onChange={handleChange}
-                        value={formData.mobile_number}
-                        />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Search
-                </button>
-            </form>
-        </div>
-            <div>
-            <ErrorAlert error={reservationsError} />
-            <div>
-                <h4 className="mb-0 my-3">Search Result</h4>
-                <ReservationList reservations={reservations} cancelReservation={cancelReservation}/>
-            </div>
-        </div>
-    </main>
+    const result = window.confirm(
+      "Do you want to cancel this reservation? This cannot be undone."
     );
+    if (result) {
+      setReservationsError(null);
+      cancelReservations(reservation_id, abortController.signal)
+        .then(() => {
+          console.log("Cancelling Reservation..", reservation_id);
+          history.push("/");
+        })
+        .catch(setReservationsError);
+    }
+
+    return () => abortController.abort();
   }
-  
-  export default Search;
+
+  return (
+    <main>
+      <h1>Search Reservation Using Mobile Number</h1>
+      <div>
+        <form onSubmit={submitHandler}>
+          <div className="form-group">
+            <label htmlFor="mobile_number" className="form-label">
+              Mobile Number
+            </label>
+            <input
+              className="form-control"
+              id="mobile_number"
+              type="text"
+              name="mobile_number"
+              placeholder="(___)-___-_____"
+              onChange={handleChange}
+              value={formData.mobile_number}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Search
+          </button>
+        </form>
+      </div>
+      <div>
+        <ErrorAlert error={reservationsError} />
+        <div>
+          <h4 className="mb-0 my-3">Search Result</h4>
+          <ReservationList
+            reservations={reservations}
+            cancelReservation={cancelReservation}
+          />
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export default Search;

@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { today } from "../utils/date-time";
 
 import Dashboard from "../dashboard/Dashboard";
@@ -10,7 +10,6 @@ import TableAssign from "../tables/TableAssign";
 import NotFound from "./NotFound";
 import Search from "../reservations/Search";
 
-
 /**
  * Defines all the routes for the application.
  *
@@ -19,22 +18,21 @@ import Search from "../reservations/Search";
  * @returns {JSX.Element}
  */
 function Routes() {
-
   const [date, setDate] = useState(today());
 
   const url = useLocation();
 
   useEffect(() => {
-        let queryParams = new URLSearchParams(url.search);
-        if(queryParams.get("date")){
-          setDate(queryParams.get("date"));
-        } else{
-          setDate(today());
-        }
+    let queryParams = new URLSearchParams(url.search);
+    if (queryParams.get("date")) {
+      setDate(queryParams.get("date"));
+    } else {
+      setDate(today());
+    }
 
-        return () => { 
-          queryParams = new URLSearchParams();
-        }
+    return () => {
+      queryParams = new URLSearchParams();
+    };
   }, [url]);
 
   return (
@@ -43,7 +41,7 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={date} setDate={setDate}/>
+        <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route path={"/reservations/:reservationsId/seat"}>
         <TableAssign />
@@ -55,13 +53,13 @@ function Routes() {
         <CreateNewReservation />
       </Route>
       <Route path="/reservations">
-        <Dashboard date={date} setDate={setDate}/>
+        <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route exact={true} path="/tables/new">
-        <CreateNewTable/>
+        <CreateNewTable />
       </Route>
       <Route exact={true} path="/search">
-        <Search/>
+        <Search />
       </Route>
       <Route>
         <NotFound />
