@@ -31,7 +31,7 @@ function ReservationCard({ reservation, cancelReservation }) {
   }
 
   return (
-    <div className="card">
+    <div className="card mx-1">
       <div className="card-body">
         <h5 className="card-title">
           {reservation.first_name} {reservation.last_name}
