@@ -24,7 +24,6 @@ function Search() {
 
     event.preventDefault();
     setFormData({ ...initialFormState });
-    console.log("Submitting..", formData);
 
     const mobile_number = formData.mobile_number;
     searchReservations(mobile_number, abortController.signal)
@@ -51,7 +50,6 @@ function Search() {
       setReservationsError(null);
       cancelReservations(reservation_id, abortController.signal)
         .then(() => {
-          console.log("Cancelling Reservation..", reservation_id);
           history.push("/");
         })
         .catch(setReservationsError);

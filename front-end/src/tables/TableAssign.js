@@ -41,8 +41,7 @@ function TableAssign() {
     const reservation = { reservation_id: reservationsId };
 
     assignTable(tableId, reservation, abortController.signal)
-      .then((response) => {
-        console.log("Assigned table!");
+      .then(() => {
         history.push("/");
       })
       .catch((error) => {

@@ -23,11 +23,9 @@ function TableForm({ formData, setFormData, deckFunction, setTablesError }) {
 
     event.preventDefault();
     setFormData({ ...formData });
-    console.log("Submitting..", formData);
 
     deckFunction(formData, abortController.signal)
-      .then((response) => {
-        console.log("Saved table!", response);
+      .then(() => {
         history.push("/");
       })
       .catch((error) => {

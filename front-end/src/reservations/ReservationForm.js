@@ -22,13 +22,10 @@ function ReservationForm({
 
     event.preventDefault();
     setFormData({ ...initialFormState });
-    console.log("Submitting..", formData);
 
     reservationFunction(formData, abortController.signal)
-      .then((response) => {
-        console.log("Saved user!", response);
+      .then(() => {
         const newPath = `/dashboard/?date=${formData.reservation_date}`;
-        console.log("Taking to path", newPath);
         history.push(newPath);
       })
       .catch((error) => {
