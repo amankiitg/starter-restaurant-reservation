@@ -1,12 +1,66 @@
-# Capstone: Restaurant Reservation System
 
-> You have been hired as a full stack developer at _Periodic Tables_, a startup that is creating a reservation system for fine dining restaurants.
-> The software is used only by restaurant personnel when a customer calls to request a reservation.
-> At this point, the customers will not access the system online.
+# Restaurant Reservation System
+The Restaurant Reservation System is an application, for managing schedualing for restaurants staff. Restaurant workers can track, edit, and cancel reservations, as well as monitor available tables and add new tables as needed.
 
-There are no user stories for deployment: it is expected that you will deploy the application to production after you finish a user story.
+[Reservation System App](https://aman-final-client.herokuapp.com/dashboard)
 
-There are no user stories for logging: it is expected that you will add logging to the application with enough detail to help you diagnose issues in production.
+## Tech Used
+
+### Front-end:
+
+1. ReactJS
+2. JavaScript
+3. CSS3
+4. HTML5
+5. BootStrap
+
+### Back-end:
+1. Node.js
+2. Express.js
+3. PostgreSQL
+4. Knex
+
+## Functionality
+
+### Dashboard
+
+Reservations are managed on the dashboard. By default, the dashboard will list reservations for today. Use the `Previous` and `Next` buttons to navigate through the reservations by date.
+
+Tables and their availability are listed below the day's reservations.
+
+![image](https://user-images.githubusercontent.com/5688940/189006940-39657283-0074-4074-8fd4-123478d00a9d.png)
+
+### Create New Reservation
+
+Create a reservation by clicking `New Reservation` in the navigation bar:
+
+![image](https://user-images.githubusercontent.com/5688940/189007047-7d9296ef-46ad-44d5-996b-a5a19e46af10.png)
+
+### Edit Reservation
+
+An option to edit an existing reservation. You can reach it by using the `Edit` button of the required reservation. All fields are available for editing with the same restrications of new orders
+
+![image](https://user-images.githubusercontent.com/5688940/189007390-072eada6-3130-404c-bab0-3da4310683f7.png)
+
+### Seat Reservation
+
+Clicking the `Seat` button of a reservation, navigates to the seating page. Tables with a capacity smaller than a reservation's party size cannot be selected.
+
+![image](https://user-images.githubusercontent.com/5688940/189007446-e5917bda-71ba-4265-89ff-8f5a8d0397e3.png)
+
+
+### Search Reservations
+
+Displays matching reservations based on phone number. Partial phone numbers will also work
+
+![image](https://user-images.githubusercontent.com/5688940/189007496-17f438d5-3b6b-46c2-b915-2d94ba47b873.png)
+
+
+###  Add Tables
+Users can add additional tables to the system by clicking the New Table button in the navigation bar.
+
+![image](https://user-images.githubusercontent.com/5688940/189007526-0b7ddab5-915e-494a-9276-98a1e087d3c7.png)
+
 
 ## Existing files
 
