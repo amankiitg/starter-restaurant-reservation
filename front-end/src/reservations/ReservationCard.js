@@ -36,6 +36,7 @@ function ReservationCard({ reservation, cancelReservation }) {
         <h5 className="card-title">
           {reservation.first_name} {reservation.last_name}
         </h5>
+        <p className="card-text">Mobile Number {reservation.mobile_number}</p>
         <p className="card-text">Party of {reservation.people}</p>
         <p className="card-text">
           {" "}
