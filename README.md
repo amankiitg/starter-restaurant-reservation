@@ -2,8 +2,6 @@
 # Restaurant Reservation System
 The Restaurant Reservation System is an application, for managing schedualing for restaurants staff. Restaurant workers can track, edit, and cancel reservations, as well as monitor available tables and add new tables as needed.
 
-[Reservation System App](https://aman-final-client.herokuapp.com/dashboard)
-
 ## Tech Used
 
 ### Front-end:
